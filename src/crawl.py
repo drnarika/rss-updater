@@ -42,23 +42,12 @@ class Source:
         
     items = []
     def update(self):
+        self.items = []
         for c in self.CATEGORY:
             print(f'Start updating category {c.TITLE}.')
             items_category = c.updateItems()
             self.items.extend(items_category)
             print(f'Updating {c.TITLE} completed.')
-            
-    
-    iteration = 0
-    def __iter__(self):
-        return self
-    
-    def __next__(self):
-        if len(self.items)-1<self.iteration:
-            raise StopIteration
-        i = self.items[self.iteration]
-        self.iteration += 1
-        return i
             
 class Category:
     

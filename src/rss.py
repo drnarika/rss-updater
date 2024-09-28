@@ -31,7 +31,7 @@ class RSSConstructer:
         author_node.string = self.SOURCE.AUTHOR
         self.channel_node.append(author_node)
         
-        items = iter(self.SOURCE)
+        items = self.SOURCE.items
         print('Serializing content into RSSXml...\n')
         for item in items:
             item_node = self.document.new_tag('item')
