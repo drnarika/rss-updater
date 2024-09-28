@@ -1,0 +1,8 @@
+*.xml
+*.pyc
+__pycache__
+
+index.html
+
+/dist
+# /sources

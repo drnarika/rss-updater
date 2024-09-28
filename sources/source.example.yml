@@ -1,0 +1,39 @@
+# Updater File VERSION v0.1
+title: Example Website
+link: https://example.com/
+author: Some Example Guy
+
+# Selector Format(Others is the same with this): 
+# {HTMLTagName}[anyattibute="anything"]$
+# Part before '$' is used to select the element on web page.
+# Part after '$' is the attribute will be fetched by updater on the element.
+
+# To tell updater next page's url(at category pages).
+next-page: a[class="example"]$href
+
+category:
+   -
+      # Here is the title of the category.
+      title: How To Make A Example
+      # Relative path to category.
+      link: /example/make
+   -
+      title: Bad Examples
+      link: /example/bad
+
+item:
+      position: category
+      # position: article
+      box: article
+      title: a[class="u-url url"]$innerText
+      link: a[class="u-url url"]$href
+      pubDate: time[class="entry-date published dt-published"]$datetime
+      #datetimeFormat: \%Y-\*D
+
+content:
+      # position: category
+      position: article
+      box: div[class="entry-content e-content"]
+      viewRaw: TRUE
+
+enabled: TRUE
