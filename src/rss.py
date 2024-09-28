@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup as BS
+from html import unescape
 import yaml,os
 from crawl import Source, Category, Item
 
@@ -46,6 +47,7 @@ class RSSConstructer:
 
             item_description = self.document.new_tag('description')
             item_description.insert(0,item.CONTENT)
+            item_description.replace_with
 
             item_pubDate = self.document.new_tag('pubDate')
             item_pubDate.string = item.PUBDATE
@@ -62,7 +64,9 @@ class RSSConstructer:
     
     def export(self,desPath:str):
         print(f'Export result to {desPath}...')
+        doc_unicode = self.document.prettify('utf-8').decode(errors='ignore')
+        doc = BS(unescape(doc_unicode)).prettify('utf-8').decode(errors='ignore')
         with open(desPath,'w+')as w:
-            w.write(self.document.prettify('utf-8').decode(errors='ignore'))
+            w.write(doc)
         print(f'Export completed. Exported {len(self.SOURCE.items)} items.')
         
