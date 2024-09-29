@@ -20,6 +20,19 @@ class RSSConstructer:
         self.channel_node = channel
         
     def parse(self):
+        channel_title = self.document.new_tag('title')
+        channel_title.string = self.SOURCE.TITLE
+        
+        channel_link = self.document.new_tag('link')
+        channel_link.string = self.SOURCE.LINK
+        
+        channel_author = self.document.new_tag('author')
+        channel_author.string = self.SOURCE.AUTHOR
+        
+        self.channel_node.append(channel_title)
+        self.channel_node.append(channel_link)
+        self.channel_node.append(channel_author)
+        
         items = self.SOURCE.items
         print('Serializing content into RSSXml...\n')
         for item in items:
