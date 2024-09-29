@@ -111,9 +111,10 @@ class Request:
         # self.REFERER = referer
     
     def ask(self):
-        HEADER = {'User-Agent': self.USER_AGENT,'Rederer':self.LINK}
+        HEADER = {'User-Agent': self.USER_AGENT,'Referer':self.LINK.encode('latin-1','ignore').decode('latin-1','ignore')}
         try:
             req = requests.get(self.LINK,headers=HEADER)
         except Exception as e:
             print(f'Error when request: {e}')
+            return f'<div>Error When Loading Article:<br>{e}</div>'
         return req.text
