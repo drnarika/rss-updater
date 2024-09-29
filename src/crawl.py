@@ -96,7 +96,7 @@ class Item:
     
     def fetchContent(self):
         req = Request(self.LINK)
-        content = BS(req.ask(),features='lxml').select_one(self.SOURCE.CONTENT_PREF['box']).get_text()
+        content = BS(req.ask(),features='lxml').select_one(self.SOURCE.CONTENT_PREF['box'])
         self.CONTENT = content
         print(f'Fetching {self.TITLE} completed.\r')
     

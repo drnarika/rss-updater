@@ -55,10 +55,10 @@ class RSSConstructer:
     
     def export(self,desPath:str):
         print(f'Export result to {desPath}...')
-        doc_unicode = self.document.prettify('utf-8').decode(errors='ignore')
+        doc_unicode = self.document.prettify('utf-8').decode(errors='replace')
         # doc = BS(unescape(doc_unicode),features='lxml').prettify('utf-8',None).decode(errors='ignore')
         # doc = doc.replace('\n </body>\n</html>','')
         # doc = doc.replace('\n<html>\n <body>\n  ','')
-        with open(desPath,'w+')as w:
+        with open(desPath,'w+',encoding='utf-8')as w:
             w.write(doc_unicode)
         print(f'Export completed. Exported {len(self.SOURCE.items)} items.')
