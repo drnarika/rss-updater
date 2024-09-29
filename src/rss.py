@@ -35,7 +35,10 @@ class RSSConstructer:
             item_category.string = item.PARENT.TITLE
 
             item_description = self.document.new_tag('description')
-            item_description.insert(0,item.CONTENT)
+            item_description.append(item.CONTENT)
+            # if self.SOURCE.CONTENT_PREF['viewRaw']:
+            #     item_description.append(BS('<br><div style="text-align: left;"> \
+            #                 <a herf="{self.LINK}">View Raw</a></div>'))
 
             item_pubDate = self.document.new_tag('pubDate')
             item_pubDate.string = item.PUBDATE
@@ -53,9 +56,9 @@ class RSSConstructer:
     def export(self,desPath:str):
         print(f'Export result to {desPath}...')
         doc_unicode = self.document.prettify('utf-8').decode(errors='ignore')
-        doc = BS(unescape(doc_unicode),features='lxml').prettify('utf-8',None).decode(errors='ignore')
-        doc = doc.replace('\n </body>\n</html>','')
-        doc = doc.replace('\n<html>\n <body>\n  ','')
+        # doc = BS(unescape(doc_unicode),features='lxml').prettify('utf-8',None).decode(errors='ignore')
+        # doc = doc.replace('\n </body>\n</html>','')
+        # doc = doc.replace('\n<html>\n <body>\n  ','')
         with open(desPath,'w+')as w:
-            w.write(doc)
+            w.write(doc_unicode)
         print(f'Export completed. Exported {len(self.SOURCE.items)} items.')

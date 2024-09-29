@@ -96,10 +96,7 @@ class Item:
     
     def fetchContent(self):
         req = Request(self.LINK)
-        content = str(BS(req.ask(),features='lxml').select_one(self.SOURCE.CONTENT_PREF['box']))
-        if self.SOURCE.CONTENT_PREF['viewRaw']:
-            content = f'{content}<br><div style="text-align: left;"> \
-                        <a herf="{self.LINK}">View Raw</a></div>'
+        content = BS(req.ask(),features='lxml').select_one(self.SOURCE.CONTENT_PREF['box']).get_text()
         self.CONTENT = content
         print(f'Fetching {self.TITLE} completed.\r')
     
