@@ -114,10 +114,10 @@ class OPMLConstructer:
         if source.ENABLED:
             # rootXMLUrl Process
             if self.config["rootXMLUrl"].endswith('/'):
-                xmlUrl = f'{self.config["rootXMLUrl"]}{name.split('.')[0]}.xml'
+                xmlUrl = f'{self.config["rootXMLUrl"]}{name.split(".")[0]}.xml'
             else:
-                xmlUrl = f'{self.config["rootXMLUrl"]}/{name.split('.')[0]}.xml'
-                
+                xmlUrl = f'{self.config["rootXMLUrl"]}/{name.split(".")[0]}.xml'
+
             self.document.add_rss(
                 text = source.TITLE,
                 xml_url = xmlUrl
