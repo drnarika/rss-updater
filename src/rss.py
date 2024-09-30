@@ -29,9 +29,13 @@ class RSSConstructer:
         channel_author = self.document.new_tag('author')
         channel_author.string = self.SOURCE.AUTHOR
         
+        channel_icon = self.document.new_tag('image')
+        channel_icon.string = f'{self.SOURCE.LINK}/favicon.ico'
+        
         self.channel_node.append(channel_title)
         self.channel_node.append(channel_link)
         self.channel_node.append(channel_author)
+        self.channel_node.append(channel_icon)
         
         items = self.SOURCE.items
         print('Serializing content into RSSXml...\n')
