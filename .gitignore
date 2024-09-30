@@ -5,4 +5,5 @@ __pycache__
 index.html
 
 /dist
-# /sources
+/sources
+\!/sources/source.example.yml

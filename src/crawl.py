@@ -47,7 +47,7 @@ class Source:
             print(f'Start updating category {c.TITLE}.')
             items_category = c.updateItems()
             self.items.extend(items_category)
-            print(f'Updating {c.TITLE} completed.')
+            print(f'Updating {c.TITLE} completed.\n')
             
 class Category:
     
@@ -86,10 +86,19 @@ class Item:
                 .attrs[source.ITEM_PREF['title'].split('$')[1]]
         else:
             self.TITLE = box.select_one(source.ITEM_PREF['title'].split('$')[0]).getText()
+        self.TITLE = self.TITLE.replace('\t','').replace('\n','')
         self.LINK = box.select_one(source.ITEM_PREF['link'].split('$')[0]) \
             .attrs[source.ITEM_PREF['link'].split('$')[1]]
-        self.PUBDATE = box.select_one(source.ITEM_PREF['pubDate'].split('$')[0]) \
-            .attrs[source.ITEM_PREF['pubDate'].split('$')[1]]
+        if not self.LINK.startswith('http'):
+            self.LINK = f'{self.SOURCE.LINK}{self.PARENT.LINK}{self.LINK}'
+
+        if source.ITEM_PREF['pubDate'].split('$')[1] != 'innerText':
+            self.PUBDATE = box.select_one(source.ITEM_PREF['pubDate'].split('$')[0]) \
+                .attrs[source.ITEM_PREF['pubDate'].split('$')[1]]
+        else:
+            self.PUBDATE = box.select_one(source.ITEM_PREF['pubDate'].split('$')[0]).get_text()
+        self.PUBDATE = self.PUBDATE.replace('\t','').replace('\n','')
+
         self.SOURCE = source
         self.BOX = box
         self.PARENT = parent

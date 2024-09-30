@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup as BS
 from bs4.formatter import XMLFormatter
 from html import unescape
-import yaml,os
+import yaml,os,datetime
 from crawl import Source, Category, Item
 
 class RSSConstructer:
@@ -48,6 +48,9 @@ class RSSConstructer:
             item_link = self.document.new_tag('link')
             item_link.string = item.LINK
 
+            item_author = self.document.new_tag('author')
+            item_author.string = item.SOURCE.AUTHOR
+
             item_category = self.document.new_tag('category')
             item_category.string = item.PARENT.TITLE
 
@@ -58,11 +61,16 @@ class RSSConstructer:
             #                 <a herf="{self.LINK}">View Raw</a></div>'))
 
             item_pubDate = self.document.new_tag('pubDate')
-            item_pubDate.string = item.PUBDATE
+            if "datetimeFormat" in self.SOURCE.ITEM_PREF.keys():
+                dt = datetime.datetime.strptime(item.PUBDATE,self.SOURCE.ITEM_PREF['datetimeFormat'])
+                item_pubDate.string = dt.isoformat('T') + 'Z'
+            else:
+                item_pubDate.string = item.PUBDATE
 
             
             item_node.append(item_title)
             item_node.append(item_link)
+            item_node.append(item_author)
             item_node.append(item_category)
             item_node.append(item_description)
             item_node.append(item_pubDate)
