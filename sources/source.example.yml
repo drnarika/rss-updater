@@ -36,4 +36,7 @@ content:
       box: div[class="entry-content e-content"]
       viewRaw: TRUE
 
-enabled: TRUE
+# If you set this attribute to TRUE, 
+# Rss-updater will scan this source file.
+enabled: FALSE
+# enabled: TRUE

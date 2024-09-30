@@ -1,3 +1,4 @@
 pyyaml
+pyopml
 beautifulsoup4
 lxml

@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup as BS
 from bs4.formatter import XMLFormatter
 from html import unescape
-import yaml,os,datetime
+from opml import OpmlDocument as opml
+import yaml,os,datetime,sys
 from crawl import Source, Category, Item
 
 class RSSConstructer:
@@ -80,10 +81,45 @@ class RSSConstructer:
     
     def export(self,desPath:str):
         print(f'Export result to {desPath}...')
-        doc_unicode = self.document.prettify('utf-8').decode(errors='replace')
+        # doc_unicode = self.document.prettify('utf-8').decode(errors='replace')
+        doc_unicode = self.document.decode(False,'utf-8')
         # doc = BS(unescape(doc_unicode),features='lxml').prettify('utf-8',None).decode(errors='ignore')
         # doc = doc.replace('\n </body>\n</html>','')
         # doc = doc.replace('\n<html>\n <body>\n  ','')
         with open(desPath,'w+',encoding='utf-8')as w:
             w.write(doc_unicode)
-        print(f'Export completed. Exported {len(self.SOURCE.items)} items.')
+        print(f'Export completed. Exported {len(self.SOURCE.items)} items.\n')
+
+class OPMLConstructer:
+
+    def __init__(self) -> None:
+        cwd = os.path.split(sys.argv[0])[0]
+        config_file = os.path.join(cwd,'../sources/opml.yml')
+        if os.path.exists(config_file):
+            with open(config_file,'r',encoding='utf-8')as r:
+                source = yaml.load(r,Loader=yaml.FullLoader)
+                self.document = opml(
+                    title = source['title'],
+                    date_created = datetime.datetime.now(),
+                    owner_name = source['ownerName'],
+                    owner_email = source['ownerEmail'],
+                    owner_id = source['ownerId']
+                )
+                self.config = source
+            print('OPML config loaded.')
+        else:
+            return None
+
+    def appendSource(self, source:Source, name:str):
+        if source.ENABLED:
+            self.document.add_rss(
+                text = source.TITLE,
+                xml_url = f'{self.config["rootXMLUrl"]}{name}' 
+                if self.config["rootXMLUrl"].endswith('/') 
+                else f'{self.config["rootXMLUrl"]}/{name}'
+            )
+
+    def export(self, desPath:str):
+        print(f'Export OPML to {desPath}...')
+        with open(desPath,'wb')as wb:
+            self.document.dump(wb, pretty=True, encoding='utf-8')

@@ -1,0 +1,13 @@
+# Here is the basic config of default OPML generator configuration.
+# See: http://opml.org/spec2.opml
+
+title: Example OPML
+ownerName: Example Guy
+ownerEmail: someone@example.com
+ownerId: https://www.example.com/
+
+# Remember to rename it to 'opml.yml' after your modify!
+
+# Custom Properities
+# rootXMLUrl: Where you place your OPML and RSS-XML files. (URL)
+rootXMLUrl: https://example.com/rss/feed/

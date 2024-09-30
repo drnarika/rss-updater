@@ -9,11 +9,17 @@ class Source:
     def loadFromYAML(self,path: str):
         with open(path,'r',encoding='utf-8')as r:
             source = yaml.load(r,Loader=yaml.FullLoader)
-            if source['enabled'] == False:
+            
+            # Check if this is an enabled source file.
+            if not 'enabled' in source.keys():
+                self.ENABLED = False
+                return 0
+            elif source['enabled'] == False:
                 print(f'Source {source["title"]} has been skipped.')
                 self.ENABLED = False
                 return 0
             else: self.ENABLED = True
+
             print(f'Start loading source {source["title"]}.')
             for key in source.keys():
                 if key == 'title':
@@ -30,6 +36,7 @@ class Source:
                     self.ITEM_PREF = source['item']
                 elif key == 'content':
                     self.CONTENT_PREF = source['content']
+
             print(f'Loading {self.TITLE} completed.\n')
                     
     def updateCategories(self,categories:list):

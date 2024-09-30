@@ -6,4 +6,5 @@ index.html
 
 /dist
 /sources
+\!/sources/opml.example.yml
 \!/sources/source.example.yml
