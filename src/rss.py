@@ -112,11 +112,15 @@ class OPMLConstructer:
 
     def appendSource(self, source:Source, name:str):
         if source.ENABLED:
+            # rootXMLUrl Process
+            if self.config["rootXMLUrl"].endswith('/'):
+                xmlUrl = f'{self.config["rootXMLUrl"]}{name.split('.')[0]}.xml'
+            else:
+                xmlUrl = f'{self.config["rootXMLUrl"]}/{name.split('.')[0]}.xml'
+                
             self.document.add_rss(
                 text = source.TITLE,
-                xml_url = f'{self.config["rootXMLUrl"]}{name}' 
-                if self.config["rootXMLUrl"].endswith('/') 
-                else f'{self.config["rootXMLUrl"]}/{name}'
+                xml_url = xmlUrl
             )
 
     def export(self, desPath:str):
